@@ -8,7 +8,7 @@ async function main() {
     console.log("Flat Audit for P0-P2...");
 
     const phases = await prisma.phase.findMany({
-        where: { order: { lte: 2 } }
+        where: { orderIndex: { lte: 2 } }
     });
 
     const phaseIds = phases.map(p => p.id);
@@ -35,7 +35,7 @@ async function main() {
         const phase = phaseMap.get(section?.phaseId || "");
 
         if (phase && (!res || res.length === 0)) {
-            output += `[P${phase.order}: ${item.title}]\n`;
+            output += `[P${phase.orderIndex}: ${item.title}]\n`;
             count++;
         }
     }
