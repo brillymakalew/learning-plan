@@ -1,0 +1,3 @@
+// Application layer DTOs will be defined here using Zod
+// Example: ItemStatusUpdateDto, UpsertItemDto, etc.
+export {};

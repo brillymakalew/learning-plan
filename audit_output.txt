@@ -1,0 +1,31 @@
+[EMPTY] Reading for theory (how to read management papers)
+[EMPTY] Academic writing in management (argument structure)
+[EMPTY] Temporal structuring (Orlikowski & Yates) — concepts & how to operationalize
+[EMPTY] Organizational legitimacy (Suchman) — pragmatic/moral/cognitive + multi-audience
+[EMPTY] Sociomateriality (Orlikowski) — using it without 'tech as factor'
+[EMPTY] Algorithmic management & contested control (Kellogg et al.)
+[EMPTY] Signaling theory (Spence) applied to degrees under GenAI
+[EMPTY] Mid-range theory & mechanisms (from process data)
+[EMPTY] Define and refine your new construct: Flashpoint Bridgework
+[EMPTY] Higher education as an organizational field (governance, quality assurance, professional bodies)
+[EMPTY] Learning analytics / LMS as sociotechnical infrastructure
+[EMPTY] Dynamic capabilities vs sociomaterial/process views (when each helps)
+[EMPTY] Process research & longitudinal case study design
+[EMPTY] Interviewing multiple audiences (students, faculty, admins, parents/employers)
+[EMPTY] Observation of classrooms/assessment as temporal practice
+[EMPTY] Document & artifact analysis (policies, rubrics, integrity cases)
+[EMPTY] Abductive analysis (iterate between data and theory)
+[EMPTY] Temporal data strategies (event sequencing, narratives, visual maps)
+[EMPTY] Longitudinal survey design (waves, panel retention, measurement invariance)
+[EMPTY] Scale development & validation (deep dive)
+[EMPTY] Panel / longitudinal regression basics
+[EMPTY] Multilevel data (students nested in courses/universities) — when you need it
+[EMPTY] Visualization & reporting (tables/figures for management journals)
+[EMPTY] Qual–quant triangulation strategy
+[EMPTY] Case comparison logic (cross-case analysis)
+[EMPTY] Research ethics in HE (student privacy, power asymmetry, AI disclosure)
+[EMPTY] Project management: year-by-year plan & weekly system
+[EMPTY] Target journals & paper roadmap (1–3 papers)
+[EMPTY] Translate theory to guidance (policy makers, QA bodies, employers)
+[EMPTY] What counts as a contribution in management research
+[EMPTY] Digital transformation theory basics (beyond adoption): sociotechnical change, organizing, capabilities

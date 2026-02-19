@@ -1,0 +1,134 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL")
+}
+
+model Roadmap {
+  id          String    @id @default(uuid())
+  title       String
+  description String?
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  phases          Phase[]
+  profileSettings ProfileSettings?
+
+  @@map("roadmaps")
+}
+
+model Phase {
+  id          String   @id @default(uuid())
+  roadmapId   String   @map("roadmap_id")
+  title       String
+  orderIndex  Int      @map("order_index")
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  roadmap  Roadmap   @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
+  sections Section[]
+
+  @@map("phases")
+}
+
+model Section {
+  id         String   @id @default(uuid())
+  phaseId    String   @map("phase_id")
+  title      String
+  orderIndex Int      @map("order_index")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  phase Phase  @relation(fields: [phaseId], references: [id], onDelete: Cascade)
+  items Item[]
+
+  @@map("sections")
+}
+
+model Item {
+  id           String    @id @default(uuid())
+  sectionId    String    @map("section_id")
+  title        String
+  whatToLearn  Json      @map("what_to_learn") // array of bullet strings
+  whyItMatters String    @map("why_it_matters")
+  resources    Json      @default("[]") // array of {title, url}
+  priority     String    @default("Medium") // High | Medium | Low
+  status       String    @default("NotStarted") // NotStarted | InProgress | Done | Blocked | Archived
+  tags         String[]  @default([]) // from PRD §15 taxonomy
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  doneAt       DateTime? @map("done_at")
+
+  section       Section         @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  deliverables  Deliverable[]
+  evidence      Evidence[]
+  statusHistory StatusHistory[]
+
+  @@map("items")
+}
+
+model Deliverable {
+  id                 String    @id @default(uuid())
+  itemId             String    @map("item_id")
+  title              String
+  type               String // "1-page summary" | "reading notes" | "concept map" | etc.
+  acceptanceCriteria Json      @map("acceptance_criteria") @default("[]") // array of strings
+  status             String    @default("Pending") // Pending | Done
+  artifactUrl        String?   @map("artifact_url")
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime  @updatedAt @map("updated_at")
+  doneAt             DateTime? @map("done_at")
+
+  item Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@map("deliverables")
+}
+
+model Evidence {
+  id          String   @id @default(uuid())
+  itemId      String   @map("item_id")
+  title       String
+  type        String // note | summary | memo | slide | paper | repo | other
+  url         String
+  description String?
+  reviewedBy  String?  @map("reviewed_by")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  item Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@map("evidence")
+}
+
+model StatusHistory {
+  id         String   @id @default(uuid())
+  itemId     String   @map("item_id")
+  fromStatus String   @map("from_status")
+  toStatus   String   @map("to_status")
+  changedAt  DateTime @default(now()) @map("changed_at")
+  note       String?
+
+  item Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@map("status_history")
+}
+
+model ProfileSettings {
+  id               String   @id @default(uuid())
+  roadmapId        String   @unique @map("roadmap_id")
+  headline         String   @default("")
+  about            String   @default("")
+  publicHighlights Json     @map("public_highlights") @default("[]") // array of evidence/item ids
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  roadmap Roadmap @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
+
+  @@map("profile_settings")
+}
