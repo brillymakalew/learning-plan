@@ -5,7 +5,7 @@ import { INITIAL_ROADMAP } from '../prisma/seed-data';
 // Helper to deep copy/modify
 const roadmap = JSON.parse(JSON.stringify(INITIAL_ROADMAP));
 
-const p0Index = roadmap.phases.findIndex(p => p.title.startsWith("P0") || p.title.startsWith("Mindset Shift"));
+const p0Index = roadmap.phases.findIndex((p: any) => p.title.startsWith("P0") || p.title.startsWith("Mindset Shift"));
 
 if (p0Index !== -1) {
     const p0 = roadmap.phases[p0Index];
@@ -13,7 +13,7 @@ if (p0Index !== -1) {
 
     // 1. Remove "Measurement / DT index" section
     const originalLength = p0.sections.length;
-    p0.sections = p0.sections.filter(s => !s.title.includes("Measurement") && !s.title.includes("DT index"));
+    p0.sections = p0.sections.filter((s: any) => !s.title.includes("Measurement") && !s.title.includes("DT index"));
 
     if (p0.sections.length < originalLength) {
         console.log("Removed 'Measurement / DT index' section.");
@@ -25,13 +25,13 @@ if (p0Index !== -1) {
     // Check if we have a section for it. Maybe "Research foundations" or "The Identity Shift"?
     // Let's ensure "Research foundations" exists or create a "Mindset & Vocabulary" section.
 
-    let vocabSection = p0.sections.find(s => s.title.includes("vocab") || s.title.includes("foundations"));
+    let vocabSection = p0.sections.find((s: any) => s.title.includes("vocab") || s.title.includes("foundations"));
     if (!vocabSection) {
         vocabSection = { title: "Research foundations", items: [] };
         p0.sections.unshift(vocabSection); // Add to top
     }
 
-    const hasVocabItem = vocabSection.items.some(i => i.title.toLowerCase().includes("vocabulary"));
+    const hasVocabItem = vocabSection.items.some((i: any) => i.title.toLowerCase().includes("vocabulary"));
 
     if (!hasVocabItem) {
         vocabSection.items.push({
