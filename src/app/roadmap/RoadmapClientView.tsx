@@ -15,6 +15,7 @@ interface RoadmapClientViewProps {
 
 export function RoadmapClientView({ roadmap, isOwner }: RoadmapClientViewProps) {
     const [query, setQuery] = useState("");
+    const [filterStatus, setFilterStatus] = useState("all");
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [selectedSectionId, setSelectedSectionId] = useState<string | undefined>(undefined);
     const router = useRouter();
@@ -43,31 +44,43 @@ export function RoadmapClientView({ roadmap, isOwner }: RoadmapClientViewProps) 
     };
 
     const filteredRoadmap = useMemo(() => {
-        if (!query) return roadmap;
+        // if (!query) return roadmap; // remove optimization to always allow sort/filter
         const lowerQuery = query.toLowerCase();
 
         // Deep filter
         const newPhases = roadmap.phases.map((phase: any) => {
             const newSections = phase.sections.map((section: any) => {
-                const newItems = section.items.filter((item: any) => {
-                    return (
-                        item.title.toLowerCase().includes(lowerQuery) ||
-                        item.tags.some((t: string) => t.toLowerCase().includes(lowerQuery))
-                    );
+                let newItems = section.items.filter((item: any) => {
+                    // Search Filter
+                    const matchesSearch = item.title.toLowerCase().includes(lowerQuery) ||
+                        item.tags.some((t: string) => t.toLowerCase().includes(lowerQuery));
+
+                    // Status Filter
+                    const matchesStatus = filterStatus === 'all'
+                        ? true
+                        : item.status.toLowerCase() === filterStatus;
+
+                    return matchesSearch && matchesStatus;
                 });
+
                 return { ...section, items: newItems };
-            }).filter((s: any) => s.items.length > 0);
+            }).filter((s: any) => s.items.length > 0 || (query === "" && filterStatus === "all"));
+            // Keep sections if no search/filter, otherwise only keep if has items
 
             return { ...phase, sections: newSections };
-        }).filter((p: any) => p.sections.length > 0);
+        }).filter((p: any) => p.sections.length > 0 || (query === "" && filterStatus === "all"));
 
         return { ...roadmap, phases: newPhases };
-    }, [roadmap, query]);
+    }, [roadmap, query, filterStatus]);
 
     return (
         <>
             <div className="flex justify-between items-end mb-6">
-                <RoadmapFilterBar onSearch={setQuery} />
+                <RoadmapFilterBar
+                    onSearch={setQuery}
+                    filterStatus={filterStatus}
+                    onFilterStatusChange={setFilterStatus}
+                />
                 {/* Global Add Item removed in favor of contextual */}
             </div>
 
