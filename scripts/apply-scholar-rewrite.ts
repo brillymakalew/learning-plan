@@ -180,9 +180,9 @@ const rewrites: Record<string, { whyItMatters: string, whatToLearn: string[] }> 
 };
 
 // Apply updates
-roadmap.phases.forEach(phase => {
-    phase.sections.forEach(section => {
-        section.items.forEach(item => {
+roadmap.phases.forEach((phase: any) => {
+    phase.sections.forEach((section: any) => {
+        section.items.forEach((item: any) => {
             // Find match
             const key = Object.keys(rewrites).find(k => item.title.includes(k) || k.includes(item.title));
             if (key) {
