@@ -60,7 +60,8 @@ export class UpsertItemUseCase {
             await prisma.statusHistory.create({
                 data: {
                     itemId: newItem.id,
-                    status: "NotStarted",
+                    fromStatus: "New",
+                    toStatus: "NotStarted",
                     changedAt: new Date()
                 }
             });
