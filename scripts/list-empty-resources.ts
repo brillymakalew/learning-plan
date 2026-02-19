@@ -12,8 +12,8 @@ async function main() {
 
     // Get phase IDs for order 0, 1, 2
     const phases = await prisma.phase.findMany({
-        where: { order: { lte: 2 } },
-        select: { id: true, title: true, order: true }
+        where: { orderIndex: { lte: 2 } },
+        select: { id: true, title: true, orderIndex: true }
     });
 
     const phaseIds = phases.map(p => p.id);

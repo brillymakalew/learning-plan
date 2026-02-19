@@ -19,7 +19,7 @@ async function main() {
         orderBy: {
             section: {
                 phase: {
-                    order: 'asc'
+                    orderIndex: 'asc'
                 }
             }
         }
@@ -30,7 +30,7 @@ async function main() {
 
     for (const item of items) {
         const res = item.resources as any[];
-        const phaseOrder = item.section.phase.order;
+        const phaseOrder = item.section.phase.orderIndex;
 
         // Only care about P0, P1, P2
         if (phaseOrder <= 2) {
