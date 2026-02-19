@@ -12,13 +12,16 @@ export class PrismaProfileRepository implements IProfileRepository {
         const firstRoadmap = await prisma.roadmap.findFirst();
         if (!firstRoadmap) throw new Error("No roadmap found to attach settings to");
 
+        // Remove system fields from update data
+        const { roadmapId, id, updatedAt, ...updateData } = data;
+
         return await prisma.profileSettings.upsert({
             where: { roadmapId: firstRoadmap.id },
             create: {
                 roadmapId: firstRoadmap.id,
-                ...data
+                ...updateData
             } as any, // casting to avoid strict type issues with partial
-            update: data
+            update: updateData as any
         });
     }
 }
